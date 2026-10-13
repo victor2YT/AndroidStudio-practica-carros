@@ -442,7 +442,71 @@ fun ListasProductosContent(navController: NavController,modifier: Modifier = Mod
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text= "Productos",
+            text= "vendedores",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Row {
+            Text("IdVendedor", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Idsucursal", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Nombre", modifier = Modifier.width(150.dp), fontWeight = FontWeight.Bold)
+            Text("ventas", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("FechaVenta", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("usuario", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("contrasena", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+
+        }
+        Divider()
+        vendedores.forEachIndexed { index, vendedor ->
+            val bgColor = if (index % 2 == 0) Color(0xFFF5F5F5) else Color.White
+
+            Row (
+                modifier = Modifier
+                    .background(bgColor)
+            ) {
+                Text(" ${vendedor.idvendedor}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(" ${vendedor.idsucursal}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(vendedor.nombre, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(vendedor.ventas, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(vendedor.fechaventa, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(vendedor.usuario, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(vendedor.contrasena, modifier = Modifier
+                    .width(150.dp)
+                )
+
+                Button(onClick = {
+                    vendedores.removeAt(index)
+
+
+                }) {
+                    Text("Eliminar")
+                }
+
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text= "compradores",
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
             modifier = Modifier.align(Alignment.CenterHorizontally)
