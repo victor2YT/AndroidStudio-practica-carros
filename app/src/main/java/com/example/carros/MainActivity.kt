@@ -511,6 +511,7 @@ fun FormularioComprador(navController: NavController,modifier: Modifier = Modifi
 
 //se agrego la tabla de carros - josse juan talamantes
 //se agrego la tabla de vendedores - victor nicolas
+// se agrego la tabla de compradores - victor nicolas
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioVendedor(navController: NavController,modifier: Modifier = Modifier) {
