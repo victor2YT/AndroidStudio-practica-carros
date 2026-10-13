@@ -18,10 +18,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -54,6 +54,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.carros.ui.theme.CarrosTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +81,9 @@ fun AppContent(modifier: Modifier = Modifier) {
         composable("LoginContent") { LoginContent(navController, modifier) }
         composable("MenuContent") { MenuContent(navController, modifier) }
         composable("FormularioCarrosContent") { FormularioCarrosContent(navController, modifier) }
-        composable("ListasProductosContent") { ListasProductosContent(navController, modifier) }
+        composable("Listasdedatos") { Listasdedatos(navController, modifier) }
+        composable("FormularioComprador") { FormularioComprador(navController, modifier) }
+        composable("FormularioVendedor") { FormularioVendedor(navController, modifier) }
     }
 }
 
@@ -97,24 +100,6 @@ fun LoginContent(navController: NavController, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top
     ) {
 
-        Button(
-            onClick = {
-                navController.navigate("MenuContent")
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                "menu",
-                style = TextStyle(textDecoration = TextDecoration.Underline),
-                textAlign = TextAlign.Start,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Inicio de Sesión en Vajacars",
@@ -140,22 +125,21 @@ fun LoginContent(navController: NavController, modifier: Modifier = Modifier) {
         )
         Button(
             onClick = {
-                Toast.makeText(context, "Usuario: ${usuario}", Toast.LENGTH_SHORT).show()
-                Toast.makeText(context, "Contraseña: ${contrasena}", Toast.LENGTH_SHORT).show()
+                if (usuario.isBlank() || contrasena.isBlank()) {
+                    Toast.makeText(context, "Ingresa usuario y contraseña", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Bienvenido ${usuario}", Toast.LENGTH_SHORT).show()
+                    navController.navigate("MenuContent") {
+                        popUpTo("LoginContent") { inclusive = true }
+                    }
+                }
             },
             modifier = Modifier.align(Alignment.End)
         ) {
             Text("Iniciar sesión")
         }
     }
-
 }
-
-
-
-
-
-
 
 
 @Composable
@@ -176,24 +160,7 @@ fun MenuContent(navController: NavController, modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = {
-                navController.navigate("LoginContent")
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                "inicio de sesion",
-                style = TextStyle(textDecoration = TextDecoration.Underline),
-                textAlign = TextAlign.Start,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+
 
         Button(
             onClick = {
@@ -216,7 +183,7 @@ fun MenuContent(navController: NavController, modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                navController.navigate("ListasProductosContent")
+                navController.navigate("FormularioComprador")
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
@@ -225,7 +192,45 @@ fun MenuContent(navController: NavController, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                "listas de productos",
+                "formulario de compradores",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                navController.navigate("Listasdedatos")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "agencia de carros datos",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                navController.navigate("FormularioVendedor")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "Formulario de vendedores",
                 style = TextStyle(textDecoration = TextDecoration.Underline),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
@@ -245,25 +250,19 @@ fun FormularioCarrosContent(navController: NavController,modifier: Modifier = Mo
 
     data class Opcion(val value: String, val label: String)
 
-    val proveedores = listOf(
-        Opcion("0", "selecciona una opccion"),
-        Opcion("1", "chevrolet"),
-        Opcion("2", "ford"),
-        Opcion("3", "nissan"),
-        Opcion("4", "toyota")
-
-
-
-
+    val marcas = listOf(
+        Opcion("0", "Selecciona una marca"),
+        Opcion("1", "Ford"),
+        Opcion("2", "Nissan"),
+        Opcion("3", "Volkswagen"),
+        Opcion("4", "Chevrolet"),
+        Opcion("5", "Toyota"),
+        Opcion("6", "BMW")
     )
-    var proveedorExpandido by remember { mutableStateOf(false) }
-    var proveedor by remember { mutableStateOf(proveedores[0]) }
+    var marcaExpandida by remember { mutableStateOf(false) }
+    var marca by remember { mutableStateOf(marcas[0]) }
 
-
-
-
-
-    var nombrevideojuego: String by remember { mutableStateOf("") }
+    var modelo: String by remember { mutableStateOf("") }
     var precio: String by remember { mutableStateOf("") }
 
     Column(
@@ -296,17 +295,52 @@ fun FormularioCarrosContent(navController: NavController,modifier: Modifier = Mo
         Spacer(modifier = Modifier.height(16.dp))
 
 
+        Text(text = "Marca:")
+        ExposedDropdownMenuBox(
+            expanded = marcaExpandida,
+            onExpandedChange = { marcaExpandida = !marcaExpandida }
+        ) {
+            TextField(
+                value = marca.label,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = marcaExpandida)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
 
-        Text(text = "Nombre del videojuego:")
-        TextField(
-            value = nombrevideojuego,
-            onValueChange = { nombrevideojuego = it },
-            placeholder = { Text("Ingresa tu nombre del videojuego") },
-            modifier = Modifier.fillMaxWidth()
-        )
+            ExposedDropdownMenu(
+                expanded = marcaExpandida,
+                onDismissRequest = { marcaExpandida = false }
+            ) {
+                marcas.forEach { opcion ->
+                    DropdownMenuItem(
+                        text = { Text(opcion.label) },
+                        onClick = {
+                            marca = opcion
+                            marcaExpandida = false
+                        }
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Precio del Videojuego:")
+        Text(text = "Modelo:")
+        TextField(
+            value = modelo,
+            onValueChange = { modelo = it },
+            placeholder = { Text("Ingresa el Modelo") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "precio del Vehiculo:")
         TextField(
             value = precio,
             onValueChange = { precio = it },
@@ -315,46 +349,12 @@ fun FormularioCarrosContent(navController: NavController,modifier: Modifier = Mo
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Modelo:")
-        ExposedDropdownMenuBox(
-            expanded = proveedorExpandido,
-            onExpandedChange = { proveedorExpandido = !proveedorExpandido }
-        ) {
-            TextField(
-                value = proveedor.label,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Selecciona una opción") },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = proveedorExpandido)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .menuAnchor()
-            )
-
-            DropdownMenu(
-                expanded = proveedorExpandido,
-                onDismissRequest = { proveedorExpandido = false }
-            ) {
-                proveedores.forEach { opcion ->
-                    DropdownMenuItem(
-                        text = { Text(opcion.label) },
-                        onClick = {
-                            proveedor = opcion
-                            proveedorExpandido = false
-                        }
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                Toast.makeText(context, "Nombre del videojuego: ${nombrevideojuego}", Toast.LENGTH_SHORT).show()
-                Toast.makeText(context, "Precio: ${precio}", Toast.LENGTH_SHORT).show()
-                Toast.makeText(context, "Id Proveedor: ${proveedor.value}", Toast.LENGTH_SHORT).show()
-                Toast.makeText(context, "Nombre del Proveedor: ${proveedor.label}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "id marca: ${marca.value}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "marca: ${marca.label}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "modelo: ${modelo}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "precio: ${precio}", Toast.LENGTH_SHORT).show()
 
             },
             modifier = Modifier.align(Alignment.End)
@@ -364,9 +364,9 @@ fun FormularioCarrosContent(navController: NavController,modifier: Modifier = Mo
 
         Button(
             onClick = {
-                nombrevideojuego = "FORTNITE"
+                modelo = ""
                 precio = ""
-                proveedor = proveedores[0]
+                marca = marcas[0]
 
                 Toast.makeText(
                     context,
@@ -380,42 +380,326 @@ fun FormularioCarrosContent(navController: NavController,modifier: Modifier = Mo
             Text("Limpiar")
         }
 
-
-
-
-
-
     }
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FormularioComprador(navController: NavController,modifier: Modifier = Modifier) {
+    val context = LocalContext.current
 
 
 
 
+    var Nombre: String by remember { mutableStateOf("") }
+    var precio: String by remember { mutableStateOf("") }
+    var Telefono: String by remember { mutableStateOf("") }
+    var Correo: String by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+
+
+        // Aquí irán nuestras cajas de texto y botones.
+        Button(
+            onClick = {
+                navController.navigate("MenuContent")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "menu",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Text(text = "Nombre del comprador:")
+        TextField(
+            value = Nombre,
+            onValueChange = { Nombre = it },
+            placeholder = { Text("Ingresa el Nombre del comprador") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "precio del Vehiculo:")
+        TextField(
+            value = precio,
+            onValueChange = { precio = it },
+            placeholder = { Text("Ingresa el precio") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "Telefono:")
+        TextField(
+            value = Telefono,
+            onValueChange = { Telefono = it },
+            placeholder = { Text("Ingrese el telefono del comprador") },
+            modifier = Modifier.fillMaxWidth(),
+
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "Correo:")
+        TextField(
+            value = Correo,
+            onValueChange = { Correo = it },
+            placeholder = { Text("Ingrese el correo del comprador") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+
+                Toast.makeText(context, "Nombrecomprador : ${Nombre}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Telefono: ${Telefono}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "precio: ${precio}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Correo: ${Correo}", Toast.LENGTH_SHORT).show()
+
+
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Enviar")
+        }
+
+        Button(
+            onClick = {
+                Nombre = ""
+                precio = ""
+                Correo = ""
+                Telefono = ""
+
+                Toast.makeText(
+                    context,
+                    "Formulario limpiado",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            modifier = Modifier.align(Alignment.End)
+
+        ) {
+            Text("Limpiar")
+        }
+
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FormularioVendedor(navController: NavController,modifier: Modifier = Modifier) {
+    val context = LocalContext.current
 
 
 
 
+    var Nombre: String by remember { mutableStateOf("") }
+    var Ventas: String by remember { mutableStateOf("") }
+    var FechaVenta: String by remember { mutableStateOf("") }
+    var Usuario: String by remember { mutableStateOf("") }
+    var Contrasena: String by remember { mutableStateOf("") }
 
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+
+
+        // Aquí irán nuestras cajas de texto y botones.
+        Button(
+            onClick = {
+                navController.navigate("MenuContent")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "menu",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Text(text = "Nombre del vendedor:")
+        TextField(
+            value = Nombre,
+            onValueChange = { Nombre = it },
+            placeholder = { Text("Ingresa el Nombre del vendedor") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "Ventas:")
+        TextField(
+            value = Ventas,
+            onValueChange = { Ventas = it },
+            placeholder = { Text("Ingresa tus ventas") },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "Fecha de la venta:")
+        TextField(
+            value = FechaVenta,
+            onValueChange = { FechaVenta = it },
+            placeholder = { Text("Ingrese la fecha de la venta") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "Usuario:")
+        TextField(
+            value = Usuario,
+            onValueChange = { Usuario = it },
+            placeholder = { Text("Ingrese el usuario") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "Contraseña:")
+        TextField(
+            value = Contrasena,
+            onValueChange = { Contrasena = it },
+            placeholder = { Text("Ingrese la contraseña") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+
+                Toast.makeText(context, "NombreVendero : ${Nombre}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Ventas: ${Ventas}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "FechaVenta: ${FechaVenta}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Usuario: ${Usuario}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Contrasena: ${Contrasena}", Toast.LENGTH_SHORT).show()
+
+
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Enviar")
+        }
+
+        Button(
+            onClick = {
+                Nombre = ""
+                Ventas = ""
+                FechaVenta = ""
+                Usuario = ""
+                Contrasena = ""
+
+                Toast.makeText(
+                    context,
+                    "Formulario limpiado",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            modifier = Modifier.align(Alignment.End)
+
+        ) {
+            Text("Limpiar")
+        }
+
+    }
+}
 
 @Composable
-fun ListasProductosContent(navController: NavController,modifier: Modifier = Modifier) {
+fun Listasdedatos(navController: NavController,modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
+    val scrollStateVertical = rememberScrollState()
 
-    data class Trabajador(val id: Int, val nombre: String, val trabajo: String, val clave: String)
-    val trabajadores = remember {
+    data class Vendedor(val idvendedor: Int,
+                        val idsucursal: Int,
+                        val nombre: String,
+                        val ventas: String,
+                        val fechaventa: String,
+                        val usuario: String,
+                        val contrasena: String)
+
+    data class Comprador(val idcomprador: Int,
+                         val nombre: String,
+                         val costo: String,
+                         val telefono: String,
+                         val correo: String)
+
+    data class Carro(val idcarro: Int,
+                        val idsucursal: Int,
+                        val nombreservicio: String,
+                        val marca: String,
+                        val modelo: String,
+                        val motor: String,)
+
+    val vendedores = remember {
         mutableStateListOf(
 
-            Trabajador(id = 1,nombre= "pepe",trabajo = "programacion", clave= "12345"),
-            Trabajador(id = 2,nombre= "juan",trabajo = "diseñador", clave= "12345"),
+            Vendedor(idvendedor = 1, idsucursal = 1, nombre= "pepe", ventas = "12", fechaventa = "26 oct 2026", usuario = "pepe01", contrasena = "12345"),
+            Vendedor(idvendedor = 2, idsucursal = 1, nombre= "juan", ventas = "22", fechaventa = "12 sep 2026", usuario = "juan02", contrasena = "12345"),
         )
     }
-    // productos[index] = Producto(nombre, precio, existencias)
+
+
+
+    val compradores = remember {
+        mutableStateListOf(
+
+            Comprador(idcomprador = 1,  nombre= "pepe", costo = "12", telefono = "8783671865", correo = "pepe@gmail.com"),
+            Comprador(idcomprador = 2, nombre= "juan", costo = "22", telefono = "87856749299", correo = "juan@gmail.com"),
+        )
+    }
+
+                      val carros = remember {
+                          mutableStateListOf(
+
+                              Carro(idcarro = 1,  idsucursal= 1 , nombreservicio = "Cambio de aceite", marca = "Chevrolet", modelo = "camaroSS", motor = "V8 6.2L"),
+                              Carro(idcarro = 2,  idsucursal= 1 , nombreservicio = "Cambio de camara ", marca = "Toyota", modelo = "Tundra", motor = "V8 4.7L"),
+                          )
+                      }
+
+
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(24.dp)
+            .verticalScroll(scrollStateVertical)
             .horizontalScroll(scrollState),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
@@ -516,35 +800,42 @@ fun ListasProductosContent(navController: NavController,modifier: Modifier = Mod
 
 
         Row {
-            Text("Id", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("IdComprador", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
             Text("Nombre", modifier = Modifier.width(150.dp), fontWeight = FontWeight.Bold)
-            Text("trabajo", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
-            Text("clave", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("costo", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("telefono", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("correo", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+
 
         }
         Divider()
-        trabajadores.forEachIndexed { index, trabajador ->
+        compradores.forEachIndexed { index, comprador ->
             val bgColor = if (index % 2 == 0) Color(0xFFF5F5F5) else Color.White
 
             Row (
                 modifier = Modifier
                     .background(bgColor)
             ) {
-                Text("$ ${trabajador.id}", modifier = Modifier
+                Text(" ${comprador.idcomprador}", modifier = Modifier
                     .width(100.dp)
                 )
-                Text(trabajador.nombre, modifier = Modifier
+
+                Text(comprador.nombre, modifier = Modifier
                     .width(150.dp)
                 )
-                Text(trabajador.trabajo, modifier = Modifier
+                Text(comprador.costo, modifier = Modifier
                     .width(150.dp)
                 )
-                Text(trabajador.clave, modifier = Modifier
+                Text(comprador.telefono, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(comprador.correo, modifier = Modifier
                     .width(150.dp)
                 )
 
+
                 Button(onClick = {
-                    trabajadores.removeAt(index-1)
+                    compradores.removeAt(index)
 
 
                 }) {
@@ -554,6 +845,66 @@ fun ListasProductosContent(navController: NavController,modifier: Modifier = Mod
 
             }
         }
+
+        Text(
+        text= "carros",
+        fontSize = 20.sp,
+        fontWeight = FontWeight.ExtraBold,
+        modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Row {
+            Text("IdCarro", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Idsucursal", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Nombreservicio", modifier = Modifier.width(150.dp), fontWeight = FontWeight.Bold)
+            Text("Marca", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Modelo", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Motor", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+
+        }
+        Divider()
+        carros.forEachIndexed { index, Carro ->
+            val bgColor = if (index % 2 == 0) Color(0xFFF5F5F5) else Color.White
+
+            Row (
+                modifier = Modifier
+                    .background(bgColor)
+            ) {
+                Text(" ${Carro.idcarro}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(" ${Carro.idsucursal}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(Carro.nombreservicio, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(Carro.marca, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(Carro.modelo, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(Carro.motor, modifier = Modifier
+                    .width(150.dp)
+                )
+
+                Button(onClick = {
+                    carros.removeAt(index)
+
+
+                }) {
+                    Text("Eliminar")
+                }
+
+
+            }
+        }
+
+
 
     }
 }
