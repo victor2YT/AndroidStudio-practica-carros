@@ -506,6 +506,7 @@ fun FormularioComprador(navController: NavController,modifier: Modifier = Modifi
     }
 }
 
+//Formularios de vendedores
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioVendedor(navController: NavController,modifier: Modifier = Modifier) {
