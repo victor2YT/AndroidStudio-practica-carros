@@ -383,7 +383,7 @@ fun FormularioCarrosContent(navController: NavController,modifier: Modifier = Mo
     }
 }
 
-
+//andres cardenas - yo hice formulario compradores
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioComprador(navController: NavController,modifier: Modifier = Modifier) {
