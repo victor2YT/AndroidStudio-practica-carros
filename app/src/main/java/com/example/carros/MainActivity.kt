@@ -506,6 +506,122 @@ fun FormularioComprador(navController: NavController,modifier: Modifier = Modifi
     }
 }
 
+//se agrego el formulario de finanzas
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Formulariofinanzas(navController: NavController,modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+
+
+
+
+    var gananciasmensuales: String by remember { mutableStateOf("") }
+    var fecha: String by remember { mutableStateOf("") }
+    var numero_ventas: String by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+
+
+        // Aquí irán nuestras cajas de texto y botones.
+        Button(
+            onClick = {
+                navController.navigate("MenuContent")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "menu",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Text(text = "Ganancias Mensuales:")
+        TextField(
+            value = gananciasmensuales,
+            onValueChange = { gananciasmensuales = it },
+            placeholder = { Text("Ingresa las ganancias mensuales") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "fecha")
+        TextField(
+            value = fecha,
+            onValueChange = { fecha = it },
+            placeholder = { Text("Ingresa la fecha") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "numero de ventas:")
+        TextField(
+            value = numero_ventas,
+            onValueChange = { numero_ventas = it },
+            placeholder = { Text("Ingrese el numero de ventas") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Button(
+            onClick = {
+
+                Toast.makeText(context, "gananciasmensuales : ${gananciasmensuales}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "fecha: ${fecha}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "numero_ventas: ${numero_ventas}", Toast.LENGTH_SHORT).show()
+
+
+
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Enviar")
+        }
+
+        Button(
+            onClick = {
+                gananciasmensuales = ""
+                fecha = ""
+                numero_ventas = ""
+
+
+                Toast.makeText(
+                    context,
+                    "Formulario limpiado",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            modifier = Modifier.align(Alignment.End)
+
+        ) {
+            Text("Limpiar")
+        }
+
+    }
+}
+
+
 
 
 
