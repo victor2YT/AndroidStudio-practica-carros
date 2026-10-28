@@ -84,6 +84,9 @@ fun AppContent(modifier: Modifier = Modifier) {
         composable("Listasdedatos") { Listasdedatos(navController, modifier) }
         composable("FormularioComprador") { FormularioComprador(navController, modifier) }
         composable("FormularioVendedor") { FormularioVendedor(navController, modifier) }
+        composable("Formulariofinanzas") { Formulariofinanzas(navController, modifier) }
+        composable("Formulariosucursal") { Formulariosucursal(navController, modifier) }
+        composable("Formularioventas") { Formularioventas(navController, modifier) }
     }
 }
 
@@ -202,7 +205,7 @@ fun MenuContent(navController: NavController, modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                navController.navigate("Listasdedatos")
+                navController.navigate("Formulariosucursal")
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
@@ -211,13 +214,34 @@ fun MenuContent(navController: NavController, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                "agencia de carros datos",
+                "formulario de sucursal",
                 style = TextStyle(textDecoration = TextDecoration.Underline),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                navController.navigate("Formulariofinanzas")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "formulario de finanzas",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
 
         Button(
             onClick = {
@@ -237,6 +261,48 @@ fun MenuContent(navController: NavController, modifier: Modifier = Modifier) {
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
+
+
+        Button(
+            onClick = {
+                navController.navigate("Formularioventas")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "Formulario de ventas",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+
+        Button(
+            onClick = {
+                navController.navigate("Listasdedatos")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "agencia de carros datos",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
 
 
     }
@@ -510,6 +576,133 @@ fun FormularioComprador(navController: NavController,modifier: Modifier = Modifi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun Formulariosucursal(navController: NavController,modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+
+
+
+
+    var direccion: String by remember { mutableStateOf("") }
+    var num_empleados: String by remember { mutableStateOf("") }
+    var num_carros: String by remember { mutableStateOf("") }
+    var telefono: String by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+
+
+        // Aquí irán nuestras cajas de texto y botones.
+        Button(
+            onClick = {
+                navController.navigate("MenuContent")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "menu",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Text(text = "Direccion:")
+        TextField(
+            value = direccion,
+            onValueChange = { direccion = it },
+            placeholder = { Text("Ingresa la dirreccion") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "numero de empleados")
+        TextField(
+            value = num_empleados,
+            onValueChange = { num_empleados = it },
+            placeholder = { Text("Ingresa el numero de empleados") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "numero de carros:")
+        TextField(
+            value = num_carros,
+            onValueChange = { num_carros = it },
+            placeholder = { Text("Ingrese el numero de carros") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "telefono:")
+        TextField(
+            value = telefono,
+            onValueChange = { telefono = it },
+            placeholder = { Text("Ingrese el numero de telefono") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+
+        Button(
+            onClick = {
+
+                Toast.makeText(context, "direccion : ${direccion}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "numero de empleados: ${num_empleados}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "numero de carros: ${num_carros}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "telefono: ${telefono}", Toast.LENGTH_SHORT).show()
+
+
+
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Enviar")
+        }
+
+        Button(
+            onClick = {
+                direccion = ""
+                num_empleados = ""
+                num_carros = ""
+                telefono = ""
+
+
+                Toast.makeText(
+                    context,
+                    "Formulario limpiado",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            modifier = Modifier.align(Alignment.End)
+
+        ) {
+            Text("Limpiar")
+        }
+
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun Formulariofinanzas(navController: NavController,modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
@@ -620,6 +813,109 @@ fun Formulariofinanzas(navController: NavController,modifier: Modifier = Modifie
 
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Formularioventas(navController: NavController,modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+
+
+
+
+    var fecha_venta: String by remember { mutableStateOf("") }
+    var precio_venta: String by remember { mutableStateOf("") }
+
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+
+
+        // Aquí irán nuestras cajas de texto y botones.
+        Button(
+            onClick = {
+                navController.navigate("MenuContent")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Blue
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "menu",
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Text(text = "fecha de la venta:")
+        TextField(
+            value = fecha_venta,
+            onValueChange = { fecha_venta = it },
+            placeholder = { Text("Ingresa la fecha de la venta") },
+            modifier = Modifier.fillMaxWidth(),
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "precio de la venta")
+        TextField(
+            value = precio_venta,
+            onValueChange = { precio_venta = it },
+            placeholder = { Text("Ingresa el precio de la venta") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Button(
+            onClick = {
+
+                Toast.makeText(context, "fecha de la venta : ${fecha_venta}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "precio de la venta: ${precio_venta}", Toast.LENGTH_SHORT).show()
+
+
+
+
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Enviar")
+        }
+
+        Button(
+            onClick = {
+                fecha_venta = ""
+                precio_venta = ""
+
+
+
+                Toast.makeText(
+                    context,
+                    "Formulario limpiado",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            modifier = Modifier.align(Alignment.End)
+
+        ) {
+            Text("Limpiar")
+        }
+
+    }
+}
+
 
 
 
@@ -788,6 +1084,28 @@ fun Listasdedatos(navController: NavController,modifier: Modifier = Modifier) {
                         val modelo: String,
                         val motor: String,)
 
+    data class finanza(val idfinanza: Int,
+                        val idsucursal: Int,
+                        val gananciasmensuales: String,
+                        val fecha: String,
+                        val numeroventas: String)
+
+    data class sucursal (val idsucursal: Int,
+                         val direccion: String,
+                         val num_empleado: String,
+                         val num_carros: String,
+                         val telefono: String)
+
+    data class venta (val idventa: Int,
+                     val idvendedor: Int,
+                     val idcomprador: Int,
+                     val idcarro: Int,
+                     val fecha_venta: String,
+                     val precio_venta: String,)
+
+
+
+
     val vendedores = remember {
         mutableStateListOf(
 
@@ -814,6 +1132,34 @@ fun Listasdedatos(navController: NavController,modifier: Modifier = Modifier) {
                           )
                       }
 
+
+    val finanzas = remember {
+        mutableStateListOf(
+
+            finanza(idfinanza = 1, idsucursal = 1, gananciasmensuales= "100,000", fecha = "13/10/2026", numeroventas = "22"),
+            finanza(idfinanza = 2, idsucursal = 1, gananciasmensuales= "200,000", fecha = "14/10/2026", numeroventas = "21"),
+
+            )
+    }
+
+
+    val sucursales = remember {
+        mutableStateListOf(
+
+            sucursal(idsucursal = 1,  direccion= "calle independiente ", num_empleado = "1", num_carros = "1", telefono = "8786748218"),
+
+
+        )
+    }
+
+    val ventas = remember {
+        mutableStateListOf(
+
+            venta (idventa = 1, idvendedor  = 1, idcomprador = 1, idcarro = 1, fecha_venta = "16 octubre", precio_venta = "200000"),
+            venta (idventa = 1, idvendedor  = 2, idcomprador = 2, idcarro = 2, fecha_venta = "19 enero", precio_venta = "500000"),
+
+        )
+    }
 
 
 
@@ -1026,6 +1372,186 @@ fun Listasdedatos(navController: NavController,modifier: Modifier = Modifier) {
             }
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text= "finanzas",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Row {
+            Text("Idfinanza", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Idsucursal", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("gananciasmensuales", modifier = Modifier.width(150.dp), fontWeight = FontWeight.Bold)
+            Text("fecha", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("numeroventas", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+
+
+        }
+        Divider()
+        finanzas.forEachIndexed { index, finanza ->
+            val bgColor = if (index % 2 == 0) Color(0xFFF5F5F5) else Color.White
+
+            Row (
+                modifier = Modifier
+                    .background(bgColor)
+            ) {
+                Text(" ${finanza.idfinanza}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(" ${finanza.idsucursal}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(finanza.gananciasmensuales, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(finanza.fecha, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(finanza.numeroventas, modifier = Modifier
+                    .width(150.dp)
+                )
+
+                Button(onClick = {
+                    finanzas.removeAt(index)
+
+
+                }) {
+                    Text("Eliminar")
+                }
+
+
+            }
+        }
+
+        Text(
+            text= "sucursales",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Row {
+            Text("Idsucursales", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("direccion", modifier = Modifier.width(150.dp), fontWeight = FontWeight.Bold)
+            Text("num_empleado", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("num_carros", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("telefono", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+
+
+        }
+        Divider()
+        sucursales.forEachIndexed { index, sucursal ->
+            val bgColor = if (index % 2 == 0) Color(0xFFF5F5F5) else Color.White
+
+            Row (
+                modifier = Modifier
+                    .background(bgColor)
+            ) {
+                Text(" ${sucursal.idsucursal}", modifier = Modifier
+                    .width(100.dp)
+                )
+
+                Text(sucursal.direccion, modifier = Modifier
+                    .width(150.dp)
+                )
+
+                Text(sucursal.num_empleado, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(sucursal.num_carros, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(sucursal.telefono, modifier = Modifier
+                    .width(150.dp)
+                )
+
+
+                Button(onClick = {
+                    sucursales.removeAt(index)
+
+
+                }) {
+                    Text("Eliminar")
+                }
+
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text= "ventas",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Row {
+            Text("Idventa", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("Idvendedor", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("icomprador", modifier = Modifier.width(150.dp), fontWeight = FontWeight.Bold)
+            Text("idcarro", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("fecha_venta", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+            Text("precio_venta", modifier = Modifier.width(100.dp), fontWeight = FontWeight.Bold)
+
+
+        }
+        Divider()
+        ventas.forEachIndexed { index, venta ->
+            val bgColor = if (index % 2 == 0) Color(0xFFF5F5F5) else Color.White
+
+            Row (
+                modifier = Modifier
+                    .background(bgColor)
+            ) {
+                Text(" ${venta.idventa}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(" ${venta.idvendedor}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(" ${venta.idcomprador}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(" ${venta.idcarro}", modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(venta.fecha_venta, modifier = Modifier
+                    .width(150.dp)
+                )
+                Text(venta.fecha_venta, modifier = Modifier
+                    .width(150.dp)
+                )
+
+
+                Button(onClick = {
+                    ventas.removeAt(index)
+
+
+                }) {
+                    Text("Eliminar")
+                }
+
+
+            }
+        }
+
+
+
+
 
 
     }
@@ -1037,7 +1563,7 @@ fun Listasdedatos(navController: NavController,modifier: Modifier = Modifier) {
 @Composable
 fun ListasProductosPreview() {
     CarrosTheme {
-        FormularioCarrosContent(
+        LoginContent(
             navController = rememberNavController()
         )
     }
